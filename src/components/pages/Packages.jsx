@@ -37,12 +37,27 @@ const loadPackages = async () => {
     setLoading(true)
     setError(null)
     try {
-      const data = await packageService.searchPackages(searchTerm, filters)
+      let data
+      // Check if we have any search criteria (search term or filters)
+      const hasSearchCriteria = searchTerm || Object.values(filters).some(filter => filter)
+      
+      if (hasSearchCriteria) {
+        // Use search method when filters or search term are applied
+        console.log('Loading packages with search criteria:', { searchTerm, filters })
+        data = await packageService.searchPackages(searchTerm, filters)
+      } else {
+        // Use getAll method when no search criteria to load all packages
+        console.log('Loading all packages from database')
+        data = await packageService.getAll()
+      }
+      
       // Handle database response - ensure we have valid data array
       if (Array.isArray(data)) {
         setPackages(data)
+        console.log(`Successfully loaded ${data.length} packages from database`)
       } else {
         // Handle case where database returns null/undefined
+        console.warn('Database returned non-array data:', data)
         setPackages([])
       }
     } catch (err) {
