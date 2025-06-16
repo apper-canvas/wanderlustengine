@@ -1,98 +1,335 @@
-import inquiriesData from '../mockData/inquiries.json'
-
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
-
-let inquiries = [...inquiriesData]
+import { toast } from 'react-toastify'
 
 const inquiryService = {
   async getAll() {
-    await delay(300)
-    return [...inquiries]
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        Fields: ['Name', 'customer_name', 'customer_email', 'message', 'status', 'admin_response', 'package_id', 'Tags', 'Owner', 'CreatedOn', 'CreatedBy', 'ModifiedOn', 'ModifiedBy']
+      }
+
+      const response = await apperClient.fetchRecords('inquiry', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return []
+      }
+
+      return response.data || []
+    } catch (error) {
+      console.error('Error fetching inquiries:', error)
+      throw error
+    }
   },
 
   async getById(id) {
-    await delay(300)
-    const parsedId = parseInt(id, 10)
-    const inquiry = inquiries.find(i => i.Id === parsedId)
-    if (!inquiry) {
-      throw new Error('Inquiry not found')
+    try {
+      const parsedId = parseInt(id, 10)
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        fields: ['Name', 'customer_name', 'customer_email', 'message', 'status', 'admin_response', 'package_id', 'Tags', 'Owner', 'CreatedOn', 'CreatedBy', 'ModifiedOn', 'ModifiedBy']
+      }
+
+      const response = await apperClient.getRecordById('inquiry', parsedId, params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return null
+      }
+
+      return response.data
+    } catch (error) {
+      console.error(`Error fetching inquiry with ID ${id}:`, error)
+      throw error
     }
-    return { ...inquiry }
   },
 
   async create(inquiryData) {
-    await delay(300)
-    const maxId = inquiries.length > 0 ? Math.max(...inquiries.map(i => i.Id)) : 0
-    const newInquiry = {
-      ...inquiryData,
-      Id: maxId + 1,
-      status: 'pending',
-      adminResponse: '',
-      createdAt: new Date().toISOString()
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        records: [{
+          Name: inquiryData.customer_name || inquiryData.customerName || inquiryData.Name,
+          customer_name: inquiryData.customer_name || inquiryData.customerName,
+          customer_email: inquiryData.customer_email || inquiryData.customerEmail,
+          message: inquiryData.message,
+          status: inquiryData.status || 'pending',
+          admin_response: inquiryData.admin_response || inquiryData.adminResponse || '',
+          package_id: parseInt(inquiryData.package_id || inquiryData.packageId),
+          Tags: inquiryData.Tags || ''
+        }]
+      }
+
+      const response = await apperClient.createRecord('inquiry', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return null
+      }
+
+      if (response.results) {
+        const successfulRecords = response.results.filter(result => result.success)
+        const failedRecords = response.results.filter(result => !result.success)
+        
+        if (failedRecords.length > 0) {
+          console.error(`Failed to create ${failedRecords.length} records:${JSON.stringify(failedRecords)}`)
+          
+          failedRecords.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`)
+            })
+            if (record.message) toast.error(record.message)
+          })
+        }
+        
+        return successfulRecords.length > 0 ? successfulRecords[0].data : null
+      }
+    } catch (error) {
+      console.error('Error creating inquiry:', error)
+      throw error
     }
-    inquiries.push(newInquiry)
-    return { ...newInquiry }
   },
 
   async update(id, inquiryData) {
-    await delay(300)
-    const parsedId = parseInt(id, 10)
-    const index = inquiries.findIndex(i => i.Id === parsedId)
-    if (index === -1) {
-      throw new Error('Inquiry not found')
+    try {
+      const parsedId = parseInt(id, 10)
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const updateData = {
+        Id: parsedId
+      }
+
+      if (inquiryData.customer_name !== undefined || inquiryData.customerName !== undefined) {
+        const customerName = inquiryData.customer_name || inquiryData.customerName
+        updateData.Name = customerName
+        updateData.customer_name = customerName
+      }
+      if (inquiryData.customer_email !== undefined || inquiryData.customerEmail !== undefined) {
+        updateData.customer_email = inquiryData.customer_email || inquiryData.customerEmail
+      }
+      if (inquiryData.message !== undefined) updateData.message = inquiryData.message
+      if (inquiryData.status !== undefined) updateData.status = inquiryData.status
+      if (inquiryData.admin_response !== undefined || inquiryData.adminResponse !== undefined) {
+        updateData.admin_response = inquiryData.admin_response || inquiryData.adminResponse
+      }
+      if (inquiryData.package_id !== undefined || inquiryData.packageId !== undefined) {
+        updateData.package_id = parseInt(inquiryData.package_id || inquiryData.packageId)
+      }
+      if (inquiryData.Tags !== undefined) updateData.Tags = inquiryData.Tags
+
+      const params = {
+        records: [updateData]
+      }
+
+      const response = await apperClient.updateRecord('inquiry', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return null
+      }
+
+      if (response.results) {
+        const successfulUpdates = response.results.filter(result => result.success)
+        const failedUpdates = response.results.filter(result => !result.success)
+        
+        if (failedUpdates.length > 0) {
+          console.error(`Failed to update ${failedUpdates.length} records:${JSON.stringify(failedUpdates)}`)
+          
+          failedUpdates.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`)
+            })
+            if (record.message) toast.error(record.message)
+          })
+        }
+        
+        return successfulUpdates.length > 0 ? successfulUpdates[0].data : null
+      }
+    } catch (error) {
+      console.error('Error updating inquiry:', error)
+      throw error
     }
-    
-    const updatedInquiry = {
-      ...inquiries[index],
-      ...inquiryData,
-      Id: parsedId, // Ensure Id is not modified
-      updatedAt: new Date().toISOString()
-    }
-    
-    inquiries[index] = updatedInquiry
-    return { ...updatedInquiry }
   },
 
   async delete(id) {
-    await delay(300)
-    const parsedId = parseInt(id, 10)
-    const index = inquiries.findIndex(i => i.Id === parsedId)
-    if (index === -1) {
-      throw new Error('Inquiry not found')
+    try {
+      const parsedId = parseInt(id, 10)
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        RecordIds: [parsedId]
+      }
+
+      const response = await apperClient.deleteRecord('inquiry', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return false
+      }
+
+      if (response.results) {
+        const successfulDeletions = response.results.filter(result => result.success)
+        const failedDeletions = response.results.filter(result => !result.success)
+        
+        if (failedDeletions.length > 0) {
+          console.error(`Failed to delete ${failedDeletions.length} records:${JSON.stringify(failedDeletions)}`)
+          
+          failedDeletions.forEach(record => {
+            if (record.message) toast.error(record.message)
+          })
+        }
+        
+        return successfulDeletions.length > 0
+      }
+    } catch (error) {
+      console.error('Error deleting inquiry:', error)
+      throw error
     }
-    
-    inquiries.splice(index, 1)
-    return true
   },
 
   async getByPackageId(packageId) {
-    await delay(300)
-    const parsedPackageId = parseInt(packageId, 10)
-    return inquiries.filter(inquiry => inquiry.packageId === parsedPackageId).map(inquiry => ({ ...inquiry }))
+    try {
+      const parsedPackageId = parseInt(packageId, 10)
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        Fields: ['Name', 'customer_name', 'customer_email', 'message', 'status', 'admin_response', 'package_id', 'Tags', 'Owner', 'CreatedOn', 'CreatedBy', 'ModifiedOn', 'ModifiedBy'],
+        where: [
+          {
+            FieldName: 'package_id',
+            Operator: 'ExactMatch',
+            Values: [parsedPackageId]
+          }
+        ]
+      }
+
+      const response = await apperClient.fetchRecords('inquiry', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return []
+      }
+
+      return response.data || []
+    } catch (error) {
+      console.error('Error fetching inquiries by package ID:', error)
+      throw error
+    }
   },
 
   async getByStatus(status) {
-    await delay(300)
-    return inquiries.filter(inquiry => inquiry.status === status).map(inquiry => ({ ...inquiry }))
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        Fields: ['Name', 'customer_name', 'customer_email', 'message', 'status', 'admin_response', 'package_id', 'Tags', 'Owner', 'CreatedOn', 'CreatedBy', 'ModifiedOn', 'ModifiedBy'],
+        where: [
+          {
+            FieldName: 'status',
+            Operator: 'ExactMatch',
+            Values: [status]
+          }
+        ]
+      }
+
+      const response = await apperClient.fetchRecords('inquiry', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return []
+      }
+
+      return response.data || []
+    } catch (error) {
+      console.error('Error fetching inquiries by status:', error)
+      throw error
+    }
   },
 
   async respond(id, response) {
-    await delay(300)
-    const parsedId = parseInt(id, 10)
-    const index = inquiries.findIndex(i => i.Id === parsedId)
-    if (index === -1) {
-      throw new Error('Inquiry not found')
+    try {
+      const parsedId = parseInt(id, 10)
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        records: [{
+          Id: parsedId,
+          admin_response: response,
+          status: 'responded'
+        }]
+      }
+
+      const updateResponse = await apperClient.updateRecord('inquiry', params)
+      
+      if (!updateResponse.success) {
+        console.error(updateResponse.message)
+        toast.error(updateResponse.message)
+        return null
+      }
+
+      if (updateResponse.results) {
+        const successfulUpdates = updateResponse.results.filter(result => result.success)
+        const failedUpdates = updateResponse.results.filter(result => !result.success)
+        
+        if (failedUpdates.length > 0) {
+          console.error(`Failed to respond to ${failedUpdates.length} records:${JSON.stringify(failedUpdates)}`)
+          
+          failedUpdates.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`)
+            })
+            if (record.message) toast.error(record.message)
+          })
+        }
+        
+        return successfulUpdates.length > 0 ? successfulUpdates[0].data : null
+      }
+    } catch (error) {
+      console.error('Error responding to inquiry:', error)
+      throw error
     }
-    
-    const updatedInquiry = {
-      ...inquiries[index],
-      adminResponse: response,
-      status: 'responded',
-      respondedAt: new Date().toISOString()
-    }
-    
-    inquiries[index] = updatedInquiry
-    return { ...updatedInquiry }
   }
 }
 

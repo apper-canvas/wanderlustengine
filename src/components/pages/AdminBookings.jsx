@@ -167,8 +167,8 @@ const AdminBookings = () => {
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-2">
                         <div>
-                          <h3 className="font-semibold text-gray-900 mb-1">
-                            {getPackageTitle(booking.packageId)}
+<h3 className="font-semibold text-gray-900 mb-1">
+                            {getPackageTitle(booking.package_id)}
                           </h3>
                           <p className="text-sm text-gray-600">
                             Booking ID: #{booking.Id}
@@ -183,17 +183,17 @@ const AdminBookings = () => {
                         <div>
                           <h4 className="font-medium text-gray-900 mb-2">Customer Details</h4>
                           <div className="space-y-1 text-sm text-gray-600">
-                            <div className="flex items-center">
+<div className="flex items-center">
                               <ApperIcon name="User" className="h-4 w-4 mr-2" />
-                              {booking.customerName}
+                              {booking.customer_name}
                             </div>
                             <div className="flex items-center">
                               <ApperIcon name="Mail" className="h-4 w-4 mr-2" />
-                              {booking.customerEmail}
+                              {booking.customer_email}
                             </div>
                             <div className="flex items-center">
                               <ApperIcon name="Phone" className="h-4 w-4 mr-2" />
-                              {booking.customerPhone}
+                              {booking.customer_phone}
                             </div>
                           </div>
                         </div>
@@ -201,17 +201,17 @@ const AdminBookings = () => {
                         <div>
                           <h4 className="font-medium text-gray-900 mb-2">Booking Details</h4>
                           <div className="space-y-1 text-sm text-gray-600">
-                            <div className="flex items-center">
+<div className="flex items-center">
                               <ApperIcon name="Calendar" className="h-4 w-4 mr-2" />
-                              {format(new Date(booking.travelDate), 'MMM dd, yyyy')}
+                              {format(new Date(booking.travel_date), 'MMM dd, yyyy')}
                             </div>
                             <div className="flex items-center">
                               <ApperIcon name="Users" className="h-4 w-4 mr-2" />
-                              {booking.travelerCount} travelers
+                              {booking.traveler_count} travelers
                             </div>
                             <div className="flex items-center">
                               <ApperIcon name="DollarSign" className="h-4 w-4 mr-2" />
-                              ${booking.totalPrice}
+                              ${booking.total_price}
                             </div>
                           </div>
                         </div>

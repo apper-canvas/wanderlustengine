@@ -73,15 +73,15 @@ const AdminPackages = () => {
     setEditingPackage(pkg)
     setFormData({
       title: pkg.title,
-      description: pkg.description,
+description: pkg.description,
       price: pkg.price.toString(),
       duration: pkg.duration,
       destination: pkg.destination,
-      maxTravelers: pkg.maxTravelers.toString(),
-      images: pkg.images,
+      maxTravelers: pkg.max_travelers.toString(),
+      images: typeof pkg.images === 'string' ? pkg.images.split('\n') : pkg.images,
       itinerary: pkg.itinerary,
-      inclusions: pkg.inclusions,
-      exclusions: pkg.exclusions,
+      inclusions: typeof pkg.inclusions === 'string' ? pkg.inclusions.split('\n') : pkg.inclusions,
+      exclusions: typeof pkg.exclusions === 'string' ? pkg.exclusions.split('\n') : pkg.exclusions,
       rating: pkg.rating,
       featured: pkg.featured || false
     })
@@ -438,9 +438,9 @@ const AdminPackages = () => {
                 transition={{ delay: index * 0.1 }}
               >
                 <Card hover className="h-full">
-                  <div className="relative h-48 mb-4 rounded-lg overflow-hidden">
+<div className="relative h-48 mb-4 rounded-lg overflow-hidden">
                     <img
-                      src={pkg.images[0]}
+                      src={typeof pkg.images === 'string' ? pkg.images.split('\n')[0] : pkg.images[0]}
                       alt={pkg.title}
                       className="w-full h-full object-cover"
                     />

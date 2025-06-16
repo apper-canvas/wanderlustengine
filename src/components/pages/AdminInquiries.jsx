@@ -173,9 +173,9 @@ const AdminInquiries = () => {
                   <div className="flex flex-col">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
-                        <div className="flex items-center justify-between mb-2">
+<div className="flex items-center justify-between mb-2">
                           <h3 className="font-semibold text-gray-900">
-                            {getPackageTitle(inquiry.packageId)}
+                            {getPackageTitle(inquiry.package_id)}
                           </h3>
                           <Badge variant={getStatusBadge(inquiry.status)}>
                             {inquiry.status}
@@ -191,17 +191,17 @@ const AdminInquiries = () => {
                       <div>
                         <h4 className="font-medium text-gray-900 mb-2">Customer Details</h4>
                         <div className="space-y-1 text-sm text-gray-600">
-                          <div className="flex items-center">
+<div className="flex items-center">
                             <ApperIcon name="User" className="h-4 w-4 mr-2" />
-                            {inquiry.customerName}
+                            {inquiry.customer_name}
                           </div>
                           <div className="flex items-center">
                             <ApperIcon name="Mail" className="h-4 w-4 mr-2" />
-                            {inquiry.customerEmail}
+                            {inquiry.customer_email}
                           </div>
                           <div className="flex items-center">
                             <ApperIcon name="Calendar" className="h-4 w-4 mr-2" />
-                            {format(new Date(inquiry.createdAt), 'MMM dd, yyyy')}
+                            {format(new Date(inquiry.CreatedOn), 'MMM dd, yyyy')}
                           </div>
                         </div>
                       </div>
@@ -214,15 +214,14 @@ const AdminInquiries = () => {
                       </div>
                     </div>
 
-                    {inquiry.adminResponse && (
+{inquiry.admin_response && (
                       <div className="mb-4">
                         <h4 className="font-medium text-gray-900 mb-2">Your Response</h4>
                         <p className="text-sm text-gray-600 bg-green-50 p-3 rounded-lg border-l-4 border-green-400">
-                          {inquiry.adminResponse}
+                          {inquiry.admin_response}
                         </p>
                       </div>
                     )}
-
                     {/* Response Form */}
                     {respondingTo === inquiry.Id ? (
                       <div className="border-t pt-4">
