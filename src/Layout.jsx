@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Outlet, NavLink, useLocation } from 'react-router-dom'
+import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import ApperIcon from '@/components/ApperIcon'
 
@@ -7,7 +7,7 @@ const Layout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isAdminMode, setIsAdminMode] = useState(false)
   const location = useLocation()
-
+  const navigate = useNavigate()
   const isAdminRoute = location.pathname.startsWith('/admin')
 
   const customerNavItems = [
@@ -24,11 +24,15 @@ const Layout = () => {
 
   const currentNavItems = isAdminRoute ? adminNavItems : customerNavItems
 
-  const toggleAdminMode = () => {
-    setIsAdminMode(!isAdminMode)
+const toggleAdminMode = () => {
+    if (!isAdminRoute) {
+      // Navigate to login when switching from customer to admin mode
+      navigate('/login')
+    } else {
+      setIsAdminMode(!isAdminMode)
+    }
     setMobileMenuOpen(false)
   }
-
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
