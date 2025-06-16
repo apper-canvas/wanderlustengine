@@ -1,0 +1,61 @@
+[
+  {
+    "Id": 1,
+    "packageId": 1,
+    "customerName": "Sarah Johnson",
+    "customerEmail": "sarah.johnson@email.com",
+    "customerPhone": "+1-555-0123",
+    "travelDate": "2024-05-15",
+    "travelerCount": 2,
+    "totalPrice": 4998,
+    "status": "confirmed",
+    "createdAt": "2024-02-15T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "packageId": 2,
+    "customerName": "Michael Chen",
+    "customerEmail": "michael.chen@email.com",
+    "customerPhone": "+1-555-0456",
+    "travelDate": "2024-04-20",
+    "travelerCount": 1,
+    "totalPrice": 1299,
+    "status": "pending",
+    "createdAt": "2024-02-20T14:15:00Z"
+  },
+  {
+    "Id": 3,
+    "packageId": 3,
+    "customerName": "Emma Rodriguez",
+    "customerEmail": "emma.rodriguez@email.com",
+    "customerPhone": "+1-555-0789",
+    "travelDate": "2024-06-10",
+    "travelerCount": 4,
+    "totalPrice": 13196,
+    "status": "confirmed",
+    "createdAt": "2024-02-25T09:45:00Z"
+  },
+  {
+    "Id": 4,
+    "packageId": 4,
+    "customerName": "David Thompson",
+    "customerEmail": "david.thompson@email.com",
+    "customerPhone": "+1-555-0321",
+    "travelDate": "2024-03-28",
+    "travelerCount": 2,
+    "totalPrice": 3798,
+    "status": "cancelled",
+    "createdAt": "2024-01-10T16:20:00Z"
+  },
+  {
+    "Id": 5,
+    "packageName": "Lisa Park",
+    "customerEmail": "lisa.park@email.com",
+    "customerPhone": "+1-555-0654",
+    "travelDate": "2024-07-05",
+    "travelerCount": 3,
+    "totalPrice": 6597,
+    "status": "confirmed",
+    "createdAt": "2024-03-01T11:30:00Z"
+  }
+]

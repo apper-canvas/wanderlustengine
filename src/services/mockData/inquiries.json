@@ -1,0 +1,52 @@
+[
+  {
+    "Id": 1,
+    "packageId": 1,
+    "customerName": "Jennifer Adams",
+    "customerEmail": "jennifer.adams@email.com",
+    "message": "Hi, I'm interested in the Himalayan Adventure Trek. Can you tell me more about the difficulty level and what physical fitness is required?",
+    "status": "responded",
+    "adminResponse": "Hello Jennifer, thank you for your interest! The trek is rated as moderate to challenging. We recommend regular cardio exercise and hiking experience. Our guides will assess fitness levels during the preparation days.",
+    "createdAt": "2024-02-18T13:45:00Z"
+  },
+  {
+    "Id": 2,
+    "packageId": 2,
+    "customerName": "Robert Wilson",
+    "customerEmail": "robert.wilson@email.com",
+    "message": "I'm traveling with my family including two children (ages 8 and 12). Is the Bali Cultural Discovery suitable for kids?",
+    "status": "pending",
+    "adminResponse": "",
+    "createdAt": "2024-02-22T10:15:00Z"
+  },
+  {
+    "Id": 3,
+    "packageId": 3,
+    "customerName": "Maria Gonzalez",
+    "customerEmail": "maria.gonzalez@email.com",
+    "message": "What is the best time of year for the Patagonia expedition? I'm flexible with dates but want optimal weather conditions.",
+    "status": "responded",
+    "adminResponse": "Hi Maria, the best time for Patagonia is during the southern hemisphere summer (December to March). We have departures available in January and February 2024 with excellent weather prospects.",
+    "createdAt": "2024-02-28T15:30:00Z"
+  },
+  {
+    "Id": 4,
+    "packageId": 5,
+    "customerName": "James Mitchell",
+    "customerEmail": "james.mitchell@email.com",
+    "message": "For the Iceland Northern Lights tour, what are the chances of actually seeing the aurora? I don't want to be disappointed.",
+    "status": "pending",
+    "adminResponse": "",
+    "createdAt": "2024-03-05T09:20:00Z"
+  },
+  {
+    "Id": 5,
+    "packageId": 4,
+    "customerName": "Amanda Foster",
+    "customerEmail": "amanda.foster@email.com",
+    "message": "Do you offer any dietary accommodations for the Morocco Desert Safari? I'm vegetarian and my partner has gluten intolerance.",
+    "status": "responded",
+    "adminResponse": "Absolutely! We can accommodate vegetarian and gluten-free dietary requirements. Please let us know when booking and we'll ensure all meals meet your needs.",
+    "createdAt": "2024-03-08T12:10:00Z"
+  }
+]

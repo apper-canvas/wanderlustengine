@@ -1,0 +1,97 @@
+[
+  {
+    "Id": 1,
+    "title": "Himalayan Adventure Trek",
+    "description": "Experience the majestic beauty of the Himalayas with this 10-day guided trek through pristine mountain landscapes, ancient monasteries, and traditional villages.",
+    "price": 2499,
+    "duration": "10 days",
+    "images": [
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    ],
+    "itinerary": "Day 1-2: Arrive in Kathmandu, acclimatization and preparation. Day 3-5: Trek to base camp through rhododendron forests. Day 6-8: Summit attempt and return to base camp. Day 9-10: Return journey and departure.",
+    "inclusions": ["Professional guide", "All meals", "Accommodation", "Transportation", "Permits", "Equipment"],
+    "exclusions": ["International flights", "Personal insurance", "Personal expenses", "Tips"],
+    "rating": 4.8,
+    "destination": "Nepal",
+    "maxTravelers": 12,
+    "featured": true
+  },
+  {
+    "Id": 2,
+    "title": "Bali Cultural Discovery",
+    "description": "Immerse yourself in the rich culture of Bali with visits to ancient temples, traditional villages, and hands-on cultural experiences including cooking classes and art workshops.",
+    "price": 1299,
+    "duration": "7 days",
+    "images": [
+      "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?w=800&h=600&fit=crop"
+    ],
+    "itinerary": "Day 1: Arrival in Ubud, temple visit. Day 2-3: Traditional village tours and cooking class. Day 4-5: Art workshops and rice terrace exploration. Day 6-7: Coastal temples and departure.",
+    "inclusions": ["English-speaking guide", "All meals", "Accommodation", "Transportation", "Cultural activities", "Entrance fees"],
+    "exclusions": ["International flights", "Personal insurance", "Spa treatments", "Shopping"],
+    "rating": 4.6,
+    "destination": "Indonesia",
+    "maxTravelers": 15,
+    "featured": true
+  },
+  {
+    "Id": 3,
+    "title": "Patagonia Wilderness Expedition",
+    "description": "Explore the untamed wilderness of Patagonia with this comprehensive adventure covering glaciers, mountains, and unique wildlife in both Argentina and Chile.",
+    "price": 3299,
+    "duration": "14 days",
+    "images": [
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop"
+    ],
+    "itinerary": "Day 1-3: Buenos Aires to El Calafate, glacier exploration. Day 4-7: Torres del Paine National Park trekking. Day 8-10: Wildlife watching and glacier hiking. Day 11-14: Return journey via scenic routes.",
+    "inclusions": ["Expert naturalist guide", "All meals", "Accommodation", "Transportation", "Park fees", "Equipment"],
+    "exclusions": ["International flights", "Personal insurance", "Alcoholic beverages", "Laundry"],
+    "rating": 4.9,
+    "destination": "Argentina/Chile",
+    "maxTravelers": 10,
+    "featured": true
+  },
+  {
+    "Id": 4,
+    "title": "Morocco Desert Safari",
+    "description": "Journey through the Sahara Desert with camel treks, overnight camping under the stars, and exploration of ancient kasbahs and vibrant souks.",
+    "price": 1899,
+    "duration": "8 days",
+    "images": [
+      "https://images.unsplash.com/photo-1539650116574-75c0c6d73a0e?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1484823065316-5d807f2e41ba?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1539650116574-75c0c6d73a0e?w=800&h=600&fit=crop"
+    ],
+    "itinerary": "Day 1-2: Marrakech exploration and Atlas Mountains. Day 3-5: Sahara Desert camping and camel trekking. Day 6-7: Kasbah visits and traditional villages. Day 8: Return to Marrakech.",
+    "inclusions": ["Local guide", "All meals", "Desert camping", "Transportation", "Camel trekking", "Cultural activities"],
+    "exclusions": ["International flights", "Personal insurance", "Alcoholic beverages", "Tips"],
+    "rating": 4.7,
+    "destination": "Morocco",
+    "maxTravelers": 16,
+    "featured": false
+  },
+  {
+    "Id": 5,
+    "title": "Iceland Northern Lights Adventure",
+    "description": "Chase the Northern Lights across Iceland's dramatic landscapes, including waterfalls, glaciers, geysers, and the famous Blue Lagoon geothermal spa.",
+    "price": 2199,
+    "duration": "6 days",
+    "images": [
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop"
+    ],
+    "itinerary": "Day 1: Arrival in Reykjavik, city tour. Day 2-3: Golden Circle and Northern Lights hunting. Day 4-5: South Coast waterfalls and glacier lagoon. Day 6: Blue Lagoon and departure.",
+    "inclusions": ["Professional guide", "All meals", "Accommodation", "Transportation", "Northern Lights tours", "Blue Lagoon entry"],
+    "exclusions": ["International flights", "Personal insurance", "Alcoholic beverages", "Personal expenses"],
+    "rating": 4.5,
+    "destination": "Iceland",
+    "maxTravelers": 14,
+    "featured": true
+  }
+]
