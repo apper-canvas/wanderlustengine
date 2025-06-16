@@ -1,7 +1,40 @@
 import { toast } from 'react-toastify'
 
+// Helper function to transform database response to UI format
+const transformPackageData = (dbRecord) => {
+  if (!dbRecord) return null
+  
+  return {
+    ...dbRecord,
+    // Convert multiline text fields to arrays for UI consumption
+    images: dbRecord.images ? 
+      (typeof dbRecord.images === 'string' ? 
+        dbRecord.images.split('\n').filter(img => img.trim()) : 
+        dbRecord.images) : 
+      [],
+    inclusions: dbRecord.inclusions ? 
+      (typeof dbRecord.inclusions === 'string' ? 
+        dbRecord.inclusions.split('\n').filter(item => item.trim()) : 
+        dbRecord.inclusions) : 
+      [],
+    exclusions: dbRecord.exclusions ? 
+      (typeof dbRecord.exclusions === 'string' ? 
+        dbRecord.exclusions.split('\n').filter(item => item.trim()) : 
+        dbRecord.exclusions) : 
+      [],
+    // Ensure featured is boolean
+    featured: !!dbRecord.featured,
+    // Ensure numeric fields are properly typed
+    price: dbRecord.price ? parseFloat(dbRecord.price) : 0,
+    rating: dbRecord.rating ? parseFloat(dbRecord.rating) : 0,
+    max_travelers: dbRecord.max_travelers ? parseInt(dbRecord.max_travelers) : 0,
+    maxTravelers: dbRecord.max_travelers ? parseInt(dbRecord.max_travelers) : 0
+  }
+}
+
 const packageService = {
-  async getAll() {
+
+async getAll() {
     try {
       const { ApperClient } = window.ApperSDK
       const apperClient = new ApperClient({
@@ -21,14 +54,15 @@ const packageService = {
         return []
       }
 
-      return response.data || []
+      // Transform database format to UI format
+      const transformedData = (response.data || []).map(transformPackageData)
+      return transformedData
     } catch (error) {
       console.error('Error fetching packages:', error)
       throw error
     }
   },
-
-  async getById(id) {
+async getById(id) {
     try {
       const parsedId = parseInt(id, 10)
       const { ApperClient } = window.ApperSDK
@@ -49,7 +83,8 @@ const packageService = {
         return null
       }
 
-      return response.data
+      // Transform database format to UI format
+      return transformPackageData(response.data)
     } catch (error) {
       console.error(`Error fetching package with ID ${id}:`, error)
       throw error
@@ -228,45 +263,8 @@ const packageService = {
     }
   },
 
-  async getFeatured() {
-    try {
-      const { ApperClient } = window.ApperSDK
-      const apperClient = new ApperClient({
-        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
-        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
-      })
 
-      const params = {
-        Fields: ['Name', 'title', 'description', 'price', 'duration', 'images', 'itinerary', 'inclusions', 'exclusions', 'rating', 'destination', 'max_travelers', 'featured', 'Tags', 'Owner', 'CreatedOn', 'CreatedBy', 'ModifiedOn', 'ModifiedBy'],
-        where: [
-          {
-            FieldName: 'featured',
-            Operator: 'ExactMatch',
-            Values: [true]
-          }
-        ],
-        PagingInfo: {
-          Limit: 6,
-          Offset: 0
-        }
-      }
-
-      const response = await apperClient.fetchRecords('package', params)
-      
-      if (!response.success) {
-        console.error(response.message)
-        toast.error(response.message)
-        return []
-      }
-
-      return response.data || []
-    } catch (error) {
-      console.error('Error fetching featured packages:', error)
-      throw error
-    }
-  },
-
-  async searchPackages(query, filters = {}) {
+async searchPackages(query, filters = {}) {
     try {
       const { ApperClient } = window.ApperSDK
       const apperClient = new ApperClient({
@@ -357,9 +355,51 @@ const packageService = {
         return []
       }
 
-      return response.data || []
+      // Transform database format to UI format
+      const transformedData = (response.data || []).map(transformPackageData)
+      return transformedData
     } catch (error) {
       console.error('Error searching packages:', error)
+      throw error
+    }
+  },
+
+  async getFeatured() {
+    try {
+      const { ApperClient } = window.ApperSDK
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        Fields: ['Name', 'title', 'description', 'price', 'duration', 'images', 'itinerary', 'inclusions', 'exclusions', 'rating', 'destination', 'max_travelers', 'featured', 'Tags', 'Owner', 'CreatedOn', 'CreatedBy', 'ModifiedOn', 'ModifiedBy'],
+        where: [
+          {
+            FieldName: 'featured',
+            Operator: 'ExactMatch',
+            Values: [true]
+          }
+        ],
+        PagingInfo: {
+          Limit: 6,
+          Offset: 0
+        }
+      }
+
+      const response = await apperClient.fetchRecords('package', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        toast.error(response.message)
+        return []
+      }
+
+      // Transform database format to UI format
+      const transformedData = (response.data || []).map(transformPackageData)
+      return transformedData
+    } catch (error) {
+      console.error('Error fetching featured packages:', error)
       throw error
     }
   }
