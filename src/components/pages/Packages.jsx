@@ -33,15 +33,24 @@ const Packages = () => {
     loadPackages()
   }, [searchTerm, filters])
 
-  const loadPackages = async () => {
+const loadPackages = async () => {
     setLoading(true)
     setError(null)
     try {
       const data = await packageService.searchPackages(searchTerm, filters)
-      setPackages(data)
+      // Handle database response - ensure we have valid data array
+      if (Array.isArray(data)) {
+        setPackages(data)
+      } else {
+        // Handle case where database returns null/undefined
+        setPackages([])
+      }
     } catch (err) {
-      setError(err.message || 'Failed to load packages')
-      toast.error('Failed to load packages')
+      console.error('Error loading packages from database:', err)
+      setError(err.message || 'Failed to load packages from database')
+      toast.error('Failed to load travel packages. Please try again.')
+      // Set empty array on error to prevent undefined issues
+      setPackages([])
     } finally {
       setLoading(false)
     }
